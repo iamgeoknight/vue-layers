@@ -1,7 +1,7 @@
 # vue-layers
 
 ### Tutorial Post
-[See Here](https://spatial-dev.guru/2022/02/20/integrating-openlayers-map-with-vuejs-create-map-part-1/).
+[Integrating OpenLayers Map with VueJS](https://spatial-dev.guru/2022/02/20/integrating-openlayers-map-with-vuejs-create-map-part-1/).
 
 ## Project setup
 ```
