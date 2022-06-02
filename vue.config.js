@@ -1,3 +1,14 @@
 module.exports = {
-    publicPath: '/dist/'
+    publicPath: '/dist/',
+
+    pluginOptions: {
+      quasar: {
+        importStrategy: 'kebab',
+        rtlSupport: false
+      }
+    },
+
+    transpileDependencies: [
+      'quasar'
+    ]
 }
