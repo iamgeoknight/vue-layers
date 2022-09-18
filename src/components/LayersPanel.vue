@@ -24,9 +24,43 @@
 </template>
 
 <script>
-import layers from '../assets/jsons/layer.json';
-import { TileArcGISRest } from 'ol/source';
-import { Tile as TileLayer } from 'ol/layer';
+
+
+import { Vector as VectorSource } from 'ol/source';
+import { VectorImage } from 'ol/layer';
+import GeoJSON from 'ol/format/GeoJSON';
+
+// Import geojson layers
+import us_states from '../assets/geojsons/us_states.json';
+import us_counties from '../assets/geojsons/us_counties.json';
+import us_outline from '../assets/geojsons/us_outline.json';
+import earthquake from '../assets/geojsons/earthquake.json';
+
+let layers = [
+    {
+        "layer": us_states,
+        "name": 'US States',
+        "visible": true
+        
+    },
+    {
+        "layer": us_counties,
+        "name": 'US Couties',
+        "visible": true
+    },
+    {   
+        "layer": us_outline,
+        "name": 'US Outline',
+        "visible": true
+    },
+    {
+        "layer": earthquake,
+        "name": 'Earthquakes',
+        "visible": true
+    }
+]
+
+
 export default {
     name: 'LayersPanel',   
     data() {
@@ -49,12 +83,14 @@ export default {
         }
     },
     methods: {        
-        addLayers() {       
-            layers.forEach(lyr => {
+        addLayers() {    
+            
+            layers.forEach(lyr =>{
+                console.log(lyr.layer);
                 this.map.addLayer(
-                    new TileLayer({
-                        source: new TileArcGISRest({
-                            url: lyr.url
+                    new VectorImage({
+                        source: new VectorSource({
+                            features: new GeoJSON({'featureProjection': 'EPSG:3857'}).readFeatures(lyr.layer)
                         }),
                         name: lyr.name
                     })

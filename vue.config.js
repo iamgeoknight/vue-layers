@@ -1,5 +1,5 @@
 module.exports = {
-    publicPath: '/dist/',
+    publicPath: '/vue-layes/dist/',
 
     pluginOptions: {
       quasar: {
