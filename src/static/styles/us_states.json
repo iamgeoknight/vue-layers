@@ -1,0 +1,25 @@
+{
+    "rules": [
+        {
+            "symbolizers": [
+                {
+                    "kind": "Fill",
+                    "color": "#cccccc",
+                    "outlineColor": "#525252",
+                    "outlineWidth": 1
+                },
+                {
+                    "color": "#fff",
+                    "font": ["Arial"],
+                    "fontStyle": "normal",
+                    "fontWeight": "bold",
+                    "haloColor": "#000",
+                    "haloWidth": 4,
+                    "kind": "Text",
+                    "label": "{{name}}",
+                    "size": 14
+                }
+            ]
+        }
+    ]
+}
