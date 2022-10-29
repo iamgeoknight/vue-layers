@@ -1,0 +1,50 @@
+{
+    
+    "rules": [               
+        {                
+            "name": "COASTAL",
+            "filter": [
+                "==",
+                "TYPE",
+                "COASTAL"
+            ],
+            "symbolizers": [
+                {
+                    "kind": "Line",
+                    "color": "#339FFF",
+                    "width": 6
+                }                
+            ]
+        },
+        {                
+            "name": "MEXICAN",
+            "filter": [                
+                "==",
+                "TYPE",
+                "MEXICAN"
+            ],
+            "symbolizers": [
+                {
+                    "kind": "Line",
+                    "color": "#D4AA2E",
+                    "width": 6
+                }
+            ]
+        },
+        {                
+            "name": "CANADIAN",
+            "filter": [                
+                "==",
+                "TYPE",
+                "CANADIAN"
+            ],
+            "symbolizers": [
+                {
+                    "kind": "Line",
+                    "color": "#FF5E33",
+                    "width": 6
+                }
+            ]
+        }
+    ]
+}
