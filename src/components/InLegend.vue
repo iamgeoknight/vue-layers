@@ -3,7 +3,6 @@
     <div v-if = "layer.get('isExpanded')" style="margin-top: 10px;">
         <div :key="index" v-for="(rule, index) in layer.geostyle.rules">
             <span v-if = "layer.geostyle.rules.length > 1">
-                <!-- <q-checkbox color="primary" size="lg" v-model = "layer.getProperties().visible" @click = "toggleLayer(layer)" style="vertical-align: bottom;" ></q-checkbox> -->
                 <span class="material-symbols-outlined cursor-pointer" style="color: #54b582; font-size: 32px; font-variation-settings: 'FILL' 1; vertical-align: top" @click = "toggleSubLayer(layer, index, $event)">
                     check_circle
                 </span>

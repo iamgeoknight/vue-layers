@@ -18,7 +18,8 @@ export default {
             layers: [
                 new TileLayer({
                     source: new OSM(),
-                    name: 'OSM'
+                    name: 'OpenStreetMap',
+                    isBaseMap: true
                 })
             ],
             view: new View({

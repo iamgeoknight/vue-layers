@@ -13,7 +13,7 @@
                 <q-item  style="height: 10px;">
                     <q-item-section avatar>
                         <!-- <q-checkbox color="primary" v-model = "layer.getProperties().visible" @click = "toggleLayer(layer)"/> -->
-                        <span class="material-symbols-outlined cursor-pointer" style="color: #54b582; font-size: 40px; font-variation-settings: 'FILL' 1;" @click = "toggleLayer(layer, $event)">
+                        <span class="material-symbols-outlined cursor-pointer" style="color: #54b582; font-size: 40px; font-variation-settings: 'FILL' 1;" @click = "toggleLayer(layer, $event)" v-if="!layer.get('isBaseMap')">
                             check_circle
                         </span>
                     </q-item-section>                    
@@ -22,7 +22,7 @@
                         {{layer.get('name')}}            
                     </q-item-section>   
                     <q-item-section avatar>         
-                        <q-icon name="keyboard_arrow_down" class="expansion_align cursor-pointer" size="25px" @click="toggleSwitch(layer, $event)"/>                
+                        <q-icon name="keyboard_arrow_down" class="expansion_align cursor-pointer" size="25px" @click="toggleSwitch(layer, $event)" v-if="!layer.get('isBaseMap')"/>                
                     </q-item-section>
                 </q-item>  
                 <q-separator/>
