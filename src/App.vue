@@ -1,40 +1,32 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-      class="bg-grey-2"
-    >
+    <q-drawer v-model="leftDrawerOpen" show-if-above bordered class="bg-grey-2">
       <LayersPanel/>
     </q-drawer>
 
-    <q-page-container id = "map_container">
-      <Map/>
+    <q-page-container id="map_container">
+      <MapApp />
     </q-page-container>
   </q-layout>
 </template>
 
-<script>
+<script lang="ts">
 import { ref } from 'vue'
-import Map from './components/Map.vue'
+import MapApp from './components/MapApp.vue'
 import LayersPanel from './components/LayersPanel.vue'
-import { mapGetters } from "vuex";
+
 
 export default {
   name: 'LayoutDefault',
 
   components: {
-    Map,
+    MapApp,
     LayersPanel
   },
-  computed: {
-    ...mapGetters("map", {
-      map: "map"
-    })
+  computed: {    
   },
 
-  setup () {
+  setup() {
     return {
       leftDrawerOpen: ref(false)
     }
@@ -43,18 +35,13 @@ export default {
 </script>
 
 <style>
-@import url('../node_modules/ol/src/ol.css');
+@import url('../node_modules/ol/ol.css');
 @import url('../public/material_fonts/material_fonts.css');
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 
-html, body, #app {
+
+html,
+body,
+#app, #map_container {
   height: 100%;
   width: 100%;
   margin: 0;
