@@ -8,9 +8,9 @@
             
         </q-tabs>
         
-        <span  v-if="map != null" >
+        <span  v-if="map.hasOwnProperty('disposed')" >
             <q-list separator bordered clickable :key="index" v-for="(layer, index) in map.getLayers().getArray().slice().reverse()">
-                <q-item  style="height: 10px;">
+                <q-item  style="height: 10px;" v-if="layer.get('name') !== 'highlight_layer'">
                     <q-item-section avatar>
                         <!-- <q-checkbox color="primary" v-model = "layer.getProperties().visible" @click = "toggleLayer(layer)"/> -->
                         <span class="material-symbols-outlined cursor-pointer" style="color: #54b582; font-size: 40px; font-variation-settings: 'FILL' 1;" @click = "toggleLayer(layer, $event)" v-if="!layer.get('isBaseMap')">
@@ -32,26 +32,50 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 
-
+import { defineComponent } from 'vue'
 import { Vector as VectorSource } from 'ol/source';
 import { VectorImage } from 'ol/layer';
 import GeoJSON from 'ol/format/GeoJSON';
 import OpenLayersParser from "geostyler-openlayers-parser";
-import layers from "../static/layers/layers"
-import InLegend from "./InLegend";
+import layers from '../static/layers/layers';
+import InLegend from "./InLegend.vue";
+
+import { useMapStore } from '@/stores/mapStore';
+
+
+import type { Style } from "geostyler-style";
+// import type { Layer } from "ol/layer";
+// import type { Source } from "ol/source";
+
+
+interface CustomOptions extends VectorImage<VectorSource> {
+    source: VectorSource,
+    geostyle: Style,
+    geostyleTwin: Style,
+    name: string,
+    minZoom: number,
+    isExpanded: boolean
+}
+
+interface CustomLayer {
+    layer: Object;
+    name: string;
+    minZoom: number;
+    style: Style;
+}
 
 
 
 const parser = new OpenLayersParser();
 
-export default {
-    name: 'LayersPanel',   
+export default defineComponent({
+    name: 'LayersPanel',
     data() {
         return {
             splitterModel: 1,
-            tab: 'mails'
+            tab: 'mails',
         }
     },
     components: {
@@ -66,21 +90,23 @@ export default {
         }
     },
     computed: {
-        map() {            
-            return this.$store.state.map
+        map() {    
+            const store = useMapStore();            
+            return store.getMap
         }
     },
     methods: {        
-        addLayers() {            
-            layers.forEach(lyr =>{
+        addLayers() {                 
+            (layers as CustomLayer[]).forEach((lyr: CustomLayer) => {                
                 let current_layer = new VectorImage({
                     source: new VectorSource({
                         features: new GeoJSON({'featureProjection': 'EPSG:3857'}).readFeatures(lyr.layer)
                     }),
                     name: lyr.name,
                     minZoom: lyr.minZoom,
-                    isExpanded: false
-                });
+                    isExpanded: false                    
+                } as CustomOptions) as CustomOptions;
+                
                 current_layer.geostyle = lyr.style;
                 current_layer.geostyleTwin = JSON.parse(JSON.stringify(lyr.style));
                 if (lyr.style) {
@@ -92,29 +118,31 @@ export default {
                 this.map.addLayer(current_layer);
             });
         },
-        toggleLayer(layer, e) {
+        toggleLayer(layer: any, e: Event) {
             let flag = layer.getVisible();
+            const target = e.target as HTMLElement;
             layer.setVisible(!flag);
             if (flag == false) {
-                e.target.style.fontVariationSettings = '"FILL" 1';
+                target.style.fontVariationSettings = '"FILL" 1';
             }
             else {
-                e.target.style.fontVariationSettings = '"FILL" 0';
+                target.style.fontVariationSettings = '"FILL" 0';
             }
         },
-        toggleSwitch(layer, e) {
+        toggleSwitch(layer: any, e: Event) {
             let flag = layer.get('isExpanded');
+            const target = e.target as HTMLElement;
             layer.set('isExpanded', !flag);
             if (flag == false ) {
-                e.target.innerHTML = "keyboard_arrow_up";
+                target.innerHTML = "keyboard_arrow_up";
             }
             else {
-                e.target.innerHTML = "keyboard_arrow_down";
+                target.innerHTML = "keyboard_arrow_down";
             }
         }
     }
     
-}
+})
 </script>
 <style scoped>
     .label_align {
