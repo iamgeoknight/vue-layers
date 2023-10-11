@@ -10,5 +10,10 @@
     {
       "path": "./tsconfig.vitest.json"
     }
-  ]
+  ],
+  "compilerOptions": {
+    "checkJs": false,
+    "strict": false,
+    "noImplicitThis": true
+  }
 }
