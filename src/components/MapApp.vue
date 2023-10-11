@@ -1,7 +1,6 @@
 <template>
     <q-page class="flex flex-center">
-        <div id="map">
-        </div>
+        <div id="map"/>
         <MapPopup/>
     </q-page>
 </template>
@@ -43,8 +42,10 @@ export default defineComponent({
                 } as CustomOptions)
             ],
             view: new View({
-                center: [-9869708.964428628, 4908948.052576464],
-                zoom: 4
+                center: [8542295.27212957, 3595868.3527581077],
+                extent: [8513323.502116825, 3540098.834297705, 8589674.75107026, 3625285.299537417],
+                zoom: 14,
+                maxZoom: 19
             })
         });
         store.setMap(map);             

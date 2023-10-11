@@ -25,11 +25,13 @@
 
 
 <script lang="ts">
+import { defineComponent } from 'vue'
 import Overlay from "ol/Overlay";
 import Feature from "ol/Feature";
 import { Vector as VectorSource } from 'ol/source';
 import { VectorImage } from 'ol/layer';
 import { useMapStore } from '@/stores/mapStore';
+import { WKB } from "ol/format";
 
 interface CustomOptions extends VectorImage<VectorSource>{
     source: VectorSource,
@@ -51,7 +53,7 @@ interface MapPopupState {
 }
 
 
-export default {
+export default defineComponent({
     name: "MapPopup",
     data(): MapPopupState {
         /**
@@ -158,22 +160,24 @@ export default {
                     featureProp.rows = [];
                     featureProp.geom = {};
                     let props = feature.getProperties();
-
                     for (let x in props) {
-                        if (x != 'geometry') {                            
+                        if (x != 'geometry' && x != 'geom') {                            
                             featureProp.rows.push({
                                 key: x.toUpperCase(),
                                 value: props[x]                                
                             })                          
-                        } else {
+                        } else if (x === 'geometry') {
                             featureProp.geom = props[x];
+                        } else if (x === 'geom') {
+                            let wkb = new WKB({});
+                            featureProp.geom = wkb.readGeometry(props[x]).transform('EPSG:4326', 'EPSG:3857');
                         }
                         
                     }   
                     that.featureProps.push(featureProp);
                     that.maxPage += 1
                 });
-
+                console.log(that.featureProps);
                 if (that.featureProps.length) {
                     that.title = that.featureProps[0].title;
                     that.columns = that.featureProps[0].columns;
@@ -213,7 +217,7 @@ export default {
             this.highlight_layer?.getSource()?.addFeature(feature);
         }
     }
-};
+});
 </script>
 
 <style scoped>
